@@ -1,115 +1,130 @@
 function getRank(api) {
-    let rank = api.newPackageRank;
-    //add rankcolor for yts and staff
-    let plus = api.rankPlusColor;
-    if (plus !== undefined) {
-        if (plus === 'RED') plus = '#FF5555';
-        else if (plus === 'GOLD') plus = '#FFAA00';
-        else if (plus === 'GREEN') plus = '#55FF55';
-        else if (plus === 'YELLOW') plus = '#FFFF55';
-        else if (plus === 'LIGHT_PURPLE') plus = '#FF55FF';
-        else if (plus === 'WHITE') plus = '#FFFFFF';
-        else if (plus === 'BLUE') plus = '#5555FF';
-        else if (plus === 'DARK_GREEN') plus = '#00AA00';
-        else if (plus === 'DARK_RED') plus = '#AA0000';
-        else if (plus === 'DARK_AQUA') plus = '#00AAAA';
-        else if (plus === 'DARK_PURPLE') plus = '#AA00AA';
-        else if (plus === 'DARK_GRAY') plus = '#555555';
-        else if (plus === 'BLACK') plus = '#000000';
-        else if (plus === 'DARK_BLUE') plus = '#0000AA';
-    } else plus = '#FF5555';
-    if (api.rank !== undefined) {
-        if (api.rank === 'YOUTUBER') return `<span style="color: #FF5555;">[</span><span style="color: #FFFFFF;">YT</span><span style="color: #FF5555;">] ${api.displayname}</span>`;
-        else if (api.rank === 'ADMIN') return `<span style="color: #AA0000">[ADMIN] ${api.displayname}</span>`;
-        else if (api.rank === 'MODERATOR') return `<span style="color: #00AA00">[MOD] ${api.displayname}</span>`;
-        else if (api.rank === 'HELPER') return `<span style="color: #5555FF">[HELP] ${api.displayname}</span>`;
-    } else if (rank === 'MVP_PLUS') {
-        if (api.monthlyPackageRank === 'NONE' || !api.hasOwnProperty('monthlyPackageRank')) return `<span style="color: #55FFFF;">[MVP</span><span style="color: ${plus}">+</span><span style="color: #55FFFF;">] ${api.displayname}</span>`;
-        else return `<span style="color: #FFAA00;">[MVP</span><span style="color: ${plus}">++</span><span style="color: #FFAA00;">] ${api.displayname}</span>`;
-    } else if (rank === 'MVP') return `<span style="color: #55FFFF;">[MVP] ${api.displayname}</span>`;
-    else if (rank === 'VIP_PLUS') return `<span style="color: #55FF55;">[VIP</span><span style="color: #FFAA00;">+</span><span style="color: #55FF55;">] ${api.displayname}</span>`;
-    else if (rank === 'VIP') return `<span style="color: #55FF55;">[VIP] ${api.displayname}</span>`;
-    else return `<span style="color: #AAAAAA;">${api.displayname}</span>`;
-}
-
-function loadOverView(api) {
-    let experience = api.networkExp;
-    let level = experience < 0 ? 1 : (1 - 3.5 + Math.sqrt(12.25 + 0.0008 * experience)).toFixed(2);
-    let karma = api.karma;
-    let achievementPoint = api.achievementPoints;
-    let generalWins = api.achievements.general_wins;
-    let completeQuest = api.achievements.general_quest_master;
-    let completeChallenge = api.achievements.general_challenger;
-    let generalCoins = api.achievements.general_coins;
-    let language = api.userLanguage;
-    let firstLogin = formatDateTime(api.firstLogin);
-    let lastLogin = formatDateTime(api.lastLogin);
-    let lastLogout = formatDateTime(api.lastLogout);
-
-    return 'Level : ' + level + '<br>' + 'Karma : ' + karma + '<br>' + 'Achievement Point :  ' + achievementPoint + '<br>' +
-        'General Wins : ' + generalWins + '<br>' + 'Complete Quest : ' + completeQuest + '<br>' + 'Complete Challenge : ' + completeChallenge + '<br>' +
-        'General Coins : ' + generalCoins + '<br>' + 'Language : ' + language + '<br>' + 'First Login : ' + firstLogin + '<br>' + 'Last Login : ' +
-        lastLogin + '<br>' + 'Last Logout : ' + lastLogout;
-}
-
-function loadBedWar({ achievements, stats: { Bedwars: bedwar } }) {
-    let level = achievements.bedwars_level;
-    let coins = bedwar.coins;
-    let bed_destroy = bedwar.beds_broken_bedwars;
-    let bed_lost = bedwar.beds_lost_bedwars;
-    let winstreak = bedwar.winstreak;
-    let win = bedwar.wins_bedwars;
-    let loss = bedwar.losses_bedwars;
-    let wl = win / loss;
-    let kill = bedwar.kills_bedwars;
-    let death = bedwar.deaths_bedwars;
-    let kd = kill / death;
-    let final_kill = bedwar.final_kills_bedwars;
-    let final_death = bedwar.final_deaths_bedwars;
-    let fkdr = final_kill / final_death;
-    let iron = bedwar.iron_resources_collected_bedwars;
-    let gold = bedwar.gold_resources_collected_bedwars;
-    let diamond = bedwar.diamond_resources_collected_bedwars;
-    let emerald = bedwar.emerald_resources_collected_bedwars;
-
-    return 'Level : ' + level + ' | ' + 'Coins : ' + coins + '<br>' +
-        'Winstreak : ' + winstreak + '<br>' +
-        'Bed Destroy : ' + bed_destroy + ' | ' + 'Bed Lost : ' + bed_lost + '<br>' +
-        'Win : ' + win + ' | ' + 'Loss : ' + loss + ' | ' + 'W/L : ' + wl.toFixed(2) + '<br>' +
-        'Kill : ' + kill + ' | ' + 'Death : ' + death + ' | ' + 'K/D : ' + kd.toFixed(2) + '<br>' +
-        'Final Kill : ' + final_kill + ' | ' + 'Final Death : ' + final_death + ' | ' + 'FKDR : ' + fkdr.toFixed(2) + '<br>' +
-        'Iron : ' + iron + ' | ' + 'Gold : ' + gold + '<br>' +
-        'Diamond : ' + diamond + ' | ' + 'Emerald : ' + emerald;
-}
-
-function loadSkyWar({ stats: { SkyWars: skywar } }) {
-    let levelFormatted = formatColor(skywar.levelFormatted);
-    let soul = skywar.souls;
-    let coins = skywar.coins;
-    let assists = skywar.assists;
-    let kills = skywar.kills;
-    let deaths = skywar.deaths;
-    let kd = kills / deaths;
-    let wins = skywar.wins;
-    let losses = skywar.losses;
-    let wl = wins / losses;
-    return 'Level : ' + levelFormatted + ' | ' + 'Soul : ' + soul + '<br>' +
-        'Coins : ' + coins + ' | ' + 'Assists : ' + assists + '<br>' +
-        'Kills : ' + kills + ' | ' + 'Deaths : ' + deaths + ' | ' + 'K/D : ' + kd.toFixed(2) + '<br>' +
-        'Wins : ' + wins + ' | ' + 'Losses : ' + losses + ' | ' + 'W/L : ' + wl.toFixed(2);
-}
-
-function loadGuild({ guild: guild }) {
-
+  let rank = api.newPackageRank;
+  //add rankcolor for yts and staff
+  let plus = api.rankPlusColor;
+  if (plus !== undefined) 
+    plus=formatColorFromString(plus);
+  else plus = '§c';
+  if (api.rank !== undefined) {
+    if (api.rank === 'YOUTUBER') return `§c[§fYT§c] ${api.displayname}`;
+    else if (api.rank === 'ADMIN') return `§4[ADMIN] ${api.displayname}`;
+    else if (api.rank === 'MODERATOR') return `§2[MOD] ${api.displayname}`;
+    else if (api.rank === 'HELPER') return `§9[HELP] ${api.displayname}`;
+  } else if (rank === 'MVP_PLUS') {
+    if (api.monthlyPackageRank === 'NONE' || !api.hasOwnProperty('monthlyPackageRank')) return `§b[MVP${plus}+§b] ${api.displayname}`;
+    else return `§6[MVP${plus}++§6] ${api.displayname}`;
+  } else if (rank === 'MVP') return `§b[MVP] ${api.displayname}`;
+  else if (rank === 'VIP_PLUS') return `§a[VIP§6+§a] ${api.displayname}`;
+  else if (rank === 'VIP') return `§a[VIP] ${api.displayname}`;
+  else return `§7${api.displayname}`;
 }
 
 function getGuildLevel(exp) {
-    let guildLevelTables = [100000, 150000, 250000, 500000, 750000, 1000000, 1250000, 1500000, 2000000, 2500000, 2500000, 2500000, 2500000, 2500000, 3000000];
-    let level = 0;
-    for (var i = 0;; i++) {
-        need = i >= guildLevelTables.length ? guildLevelTables[guildLevelTables.length - 1] : guildLevelTables[i];
-        exp -= need;
-        if (exp < 0) return level + 1 + exp / need;
-        else level++;
-    }
+  let guildLevelTables = [100000, 150000, 250000, 500000, 750000, 1000000, 1250000, 1500000, 2000000, 2500000, 2500000, 2500000, 2500000, 2500000, 3000000];
+  let level = 0;
+  for (var i = 0; ; i++) {
+    need = i >= guildLevelTables.length ? guildLevelTables[guildLevelTables.length - 1] : guildLevelTables[i];
+    exp -= need;
+    if (exp < 0) return level + 1 + exp / need;
+    else level++;
+  }
 }
+
+async function loadSkyWarRanked() {
+  let playername = document.getElementById('playername').value;
+  const a = await fetch('https://api.mojang.com/users/profiles/minecraft/' + playername)
+    .then(res => res.json());
+  uuid = a.id;
+  if (uuid == null)
+    return console.error('player not found');
+  const b = await fetch('https://api.hypixel.net/player/ranked/skywars?key=' + apikey + '&uuid=' + uuid)
+    .then(res => res.json());
+  if (!b.success)
+    return document.getElementById('skyWar').innerHTML += b.cause;
+  swRankJson = b.result;
+  document.getElementById('skyWar').innerHTML += `Score : ${swRankJson.score} (#${swRankJson.position})`;
+}
+
+async function loadGuild() {
+  document.getElementById('guild').innerHTML = 'Loading...';
+  let playername = document.getElementById('playername').value;
+  const a = await fetch('https://api.mojang.com/users/profiles/minecraft/' + playername)
+    .then(res => res.json());
+  uuid = a.id;
+  if (uuid == null)
+    return console.error('player not found');
+  const b = await fetch('https://api.hypixel.net/guild?key=' + apikey + '&player=' + uuid)
+    .then(res => res.json());
+  if (!b.success)
+    return document.getElementById('guild').innerHTML = b.cause;
+  guildJson = b.guild;
+  if (guildJson == null)
+    return document.getElementById('guild').innerHTML = 'No Guild';
+
+  let string = `Name : ${guildJson.name}<br>
+    Created : ${formatDateTime(guildJson.created)}<br>
+    Level : ${getGuildLevel(guildJson.exp).toFixed(2)}<br>
+    Tag : ${formatColor(formatColorFromString(guildJson.tagColor) + '[' + guildJson.tag + ']')}<br>
+    Members : ${guildJson.members.length}<br>
+    Max Online : ${guildJson.achievements.ONLINE_PLAYERS}`;
+  document.getElementById('guild').innerHTML = string;
+}
+
+async function loadStatus() {
+  document.getElementById('status').innerHTML = 'Loading...';
+  let playername = document.getElementById('playername').value;
+  const a = await fetch('https://api.mojang.com/users/profiles/minecraft/' + playername)
+    .then(res => res.json());
+  uuid = a.id;
+  if (uuid == null)
+    return console.error('player not found');
+  const b = await fetch('https://api.hypixel.net/status?key=' + apikey + '&uuid=' + uuid)
+    .then(res => res.json());
+  if (!b.success)
+    return document.getElementById('status').innerHTML = b.cause;
+  statusJson = b.session;
+  if (statusJson.online)
+    document.getElementById('status').innerHTML = `Status : Online<br>Game Type : ${statusJson.gameType}<br>Mode : ${statusJson.mode}`;
+  else
+    document.getElementById('status').innerHTML = `Status : Offline`;
+}
+
+const loadOverView = (api) =>
+  `Level : ${api.networkExp < 0 ? 1 : (1 - 3.5 + Math.sqrt(12.25 + 0.0008 * api.networkExp)).toFixed(2)}<br>
+  Karma : ${api.karma}<br>
+  Achievement Point :  ${api.achievementPoints}<br>
+  General Wins : ${api.achievements.general_wins}<br>
+  Complete Quest : ${api.achievements.general_quest_master} | Complete Challenge : ${api.achievements.general_challenger}<br>
+  General Coins : ${api.achievements.general_coins}<br>
+  Language : ${api.userLanguage}<br>
+  First Login : ${formatDateTime(api.firstLogin)}<br>
+  Last Login : ${formatDateTime(api.lastLogin)}<br> 
+  Last Logout : ${formatDateTime(api.lastLogout)}`;
+
+const loadBedWar = ({ achievements, stats: { Bedwars: bedwar } }) =>
+  `Level : ${achievements.bedwars_level ?? 0} | Coins : ${bedwar.coins ?? 0}<br>
+  Winstreak : ${bedwar.winstreak ?? 0}<br>
+  Bed Destroy : ${bedwar.beds_broken_bedwars ?? 0} | Bed Lost : ${bedwar.beds_lost_bedwars ?? 0}<br>
+  Win : ${bedwar.wins_bedwars ?? 0} | Loss : ${bedwar.losses_bedwars ?? 0} | W/L : ${((bedwar.wins_bedwars ?? 0) / (bedwar.losses_bedwars ?? 0)).toFixed(2)}<br>
+  Kill : ${bedwar.kills_bedwars ?? 0} | Death : ${bedwar.deaths_bedwars ?? 0} | K/D : ${((bedwar.kills_bedwars ?? 0) / (bedwar.deaths_bedwars ?? 0)).toFixed(2)}<br>
+  Final Kill : ${bedwar.final_kills_bedwars ?? 0} | Final Death : ${bedwar.final_deaths_bedwars ?? 0} | FKDR : ${((bedwar.final_kills_bedwars ?? 0) / (bedwar.final_deaths_bedwars ?? 0)).toFixed(2)}<br>
+  Iron : ${bedwar.iron_resources_collected_bedwars ?? 0} | Gold : ${bedwar.gold_resources_collected_bedwars ?? 0}<br>
+  Diamond : ${bedwar.diamond_resources_collected_bedwars ?? 0} | Emerald : ${bedwar.emerald_resources_collected_bedwars ?? 0}`;
+
+
+const loadSkyWar = ({ stats: { SkyWars: skywar } }) => {
+  return `Level : ${formatColor(skywar.levelFormatted)} | Soul : ${skywar.souls ?? 0}<br>
+  Coins : ${skywar.coins ?? 0} | Assists : ${skywar.assists ?? 0}<br>
+  Kills : ${skywar.kills ?? 0} | Deaths : ${skywar.deaths ?? 0} | K/D : ${((skywar.kills ?? 0) / (skywar.deaths ?? 0)).toFixed(2)}<br>
+  Wins : ${skywar.wins ?? 0} | Losses : ${skywar.losses ?? 0} | W/L : ${((skywar.wins ?? 0) / (skywar.losses ?? 0)).toFixed(2)}`;
+}
+
+const loadMuederMystery = ({ stats: { MurderMystery: mm } }) =>
+  `Coins : ${mm.coins ?? 0} | Gold Collected : ${mm.coins_pickedup ?? 0}<br>
+  Murder Chance : ${mm.murderer_chance ?? 0} | Detective Chance : ${mm.detective_chance ?? 0}<br>
+  Wins : ${mm.wins ?? 0} | Win Rate : ${((mm.wins ?? 0) / (mm.games ?? 0)).toFixed(4) * 100}%<br>
+  Kills : ${mm.kills ?? 0} | Deaths : ${mm.deaths ?? 0}<br>
+  Knife Kills : ${mm.knife_kills ?? 0} | Bow Kills : ${mm.bow_kills ?? 0}<br>
+  Kills As Murderer : ${mm.kills_as_murderer ?? 0} | Heroes : ${mm.was_hero ?? 0}<br>
+  Kills As Infected : ${mm.kills_as_infected ?? 0} | Kills As Survivor : ${mm.kills_as_survivor ?? 0}<br>
+  Longest Time As Survivor : ${mm.longest_time_as_survivor_seconds ?? 0}s | Alpha Chance : ${mm.alpha_chance ?? 0}%`
