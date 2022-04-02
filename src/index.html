@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Hypixel Overlay</title>
+    <script src="js/util.js"></script>
+    <script src="js/hypixelInfo.js"></script>
+    <script src="js/index.js"></script>
+    <link rel="styleSheet" href="nano.min.css" />
+    <link rel="styleSheet" href="abyss.css" />
+    <style>
+        .titleFont {
+            font-size: 30px;
+            font-family: "Minecraftia";
+        }
+        
+        .infoFont {
+            font-size: 20px;
+            font-family: "Minecraftia";
+            color: rgb(237, 146, 255);
+        }
+    </style>
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />
+    <!--我也不知道这行干啥用的（）-->
+</head>
+
+<body style="border-radius: 15px;">
+    <div id="menu" class="menu">
+        <h1 class="menuitem">Hypixel Overlay</h1>
+        <button name="Quit" class="menuitem" id="quit" onclick="closeWindow()"></button>
+        <button name="Minimize" class="menuitem" id="minimize" onclick="minimize()"></button>
+    </div>
+    <div id="MainBar">
+        <!--设置游戏id和模式-->
+        <input class="titleitems" type="text" id="playername" style="position: absolute;top: 42px;left: 5px;height: 35px;text-align:left;text-indent: 10px;">
+        <select id="mode" class="custom-select_trigger" style="position: absolute;top: 45px;left: 300px;height: 35px;" onchange="changeDiv()">
+            <option value="overview">Overview</option>
+            <option value="guild">Guild</option>
+            <option value="bedWar">Bed War</option>
+            <option value="skyWar">Sky War</option>
+            <option value="duel">Duel</option>
+            <option value="murderMystery">Murder Mystery</option>
+        </select>
+        <button class="titleitems" onclick="search()" style="position: absolute;top: 45px;left: 580px;height: 35px;width: 100px;">
+          Search
+        </button>
+    </div>
+    <div id="playerData" style="position: absolute;top: 80px;left: 10px;">
+        <div id="playerName" class="titleFont" style="top: 0px;left: 0px;height: 35px;width: 600px;text-align: left;color: rgb(237, 146, 255);"> ↑ Input player name here.</div>
+        <div id="overview" class="infoFont" style="position:absolute;top:40px;width:1000px;text-align: left;"></div>
+        <div id="guild" class="infoFont" style="position:absolute;top:40px;width:1000px;text-align: left;"></div>
+        <div id="bedWar" class="infoFont" style="position:absolute;top:40px;width:1000px;text-align: left;"></div>
+        <div id="skyWar" class="infoFont" style="position:absolute;top:40px;width:1000px;text-align: left;"></div>
+    </div>
+</body>
