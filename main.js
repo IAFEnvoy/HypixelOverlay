@@ -11,7 +11,7 @@ let windowConfig = {
     x: 40,
     y: 20,
     minWidth: 400,
-    // icon: __dirname + '/assets/logo.ico',
+    icon: __dirname + '/assets/logo.ico',
     alwaysOnTop: true,
     title: 'Hypixel Overlay',
     // focusable: false,

@@ -32,8 +32,9 @@ async function search() {
         return console.error(b.cause);
     playerjson = b.player;
     document.getElementById('playerName').innerHTML = getRank(playerjson);
-    document.getElementById('overView').hidden = true;
-    document.getElementById('overView').innerHTML = loadOverView(playerjson);
+    document.getElementById('overview').hidden = true;
+    document.getElementById('overview').innerHTML = loadOverView(playerjson);
+    document.getElementById('guild').hidden = true;
     document.getElementById('bedWar').hidden = true;
     document.getElementById('bedWar').innerHTML = loadBedWar(playerjson).replace('undefined', ' ? ');
     document.getElementById('skyWar').hidden = true;
@@ -43,9 +44,10 @@ async function search() {
 }
 
 function changeDiv() {
-    document.getElementById('overView').hidden = true;
+    document.getElementById('overview').hidden = true;
     document.getElementById('bedWar').hidden = true;
     document.getElementById('skyWar').hidden = true;
+    document.getElementById('guild').hidden = true;
     document.getElementById(document.getElementById('mode').value).hidden = false;
     onShow();
 }
@@ -60,10 +62,12 @@ function minimize() {
 
 function onShow() {
     if (uuid == null) return;
-    if (!document.getElementById('skyWar').hidden && !document.getElementById('skyWar').innerHTML.includes('Skywar Ranked')) {
+    if (!document.getElementById('skyWar').hidden && !document.getElementById('skyWar').innerHTML.includes('Sky War Ranked')) {
         document.getElementById('skyWar').innerHTML += '<br>Sky War Ranked<br>';
         loadSkyWarRanked();
     }
+    if (!document.getElementById('guild').hidden)
+        loadGuild();
 }
 
 async function loadSkyWarRanked() {
@@ -92,7 +96,7 @@ async function loadGuild() {
     uuid = a.id;
     if (uuid == null)
         return console.error('player not found');
-    const b = await fetch('https://api.hypixel.net/guild?key=' + apikey + '&uuid=' + uuid)
+    const b = await fetch('https://api.hypixel.net/guild?key=' + apikey + '&player=' + uuid)
         .then(res => res.json());
     if (!b.success)
         document.getElementById('guild').innerHTML = b.cause;
@@ -104,4 +108,16 @@ async function loadGuild() {
     let guildName = guildJson.name;
     let createTime = formatDateTime(guildJson.created);
     let guildLevel = getGuildLevel(guildJson.exp);
+    let guildTag = formatColor(formatColorFromString(guildJson.tagColor) + '[' + guildJson.tag + ']');
+    let guildMembers = guildJson.members.length;
+    let guildMaxOnline = guildJson.achievements.ONLINE_PLAYERS;
+
+    let string = 'Name : ' + guildName + '<br>' +
+        'Created : ' + createTime + '<br>' +
+        'Level : ' + guildLevel.toFixed(2) + '<br>' +
+        'Tag : ' + guildTag + '<br>' +
+        'Members : ' + guildMembers + '<br>' +
+        'Max Online : ' + guildMaxOnline;
+
+    document.getElementById('guild').innerHTML = string;
 }

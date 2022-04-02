@@ -34,7 +34,7 @@ let formatColor = function(data) {
     if (has) ret += '</span>';
     return ret;
 }
-let formatColorFromString = new function(name) {
+let formatColorFromString = function(name) {
     name = name.toLowerCase();
     switch (name) {
         case "black":
