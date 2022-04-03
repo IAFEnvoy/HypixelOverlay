@@ -40,3 +40,10 @@ const colorMap = Object.fromEntries([
   'dark_gray', 'blue', 'green', 'aqua', 'red', 'light_purple', 'yellow', 'white'
 ].map((c, i) => [c, "§" + i.toString(16)]))
 let formatColorFromString = (name) => colorMap[name.toLowerCase()];
+
+let formatNameString = (name) => {
+  var words = name.toLowerCase().split('_');
+  for(var i=0 ;i<words.length;i++)
+    words[i]=words[i][0].toUpperCase()+words[i].slice(1);
+  return words.join(' ');
+}

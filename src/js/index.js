@@ -17,11 +17,8 @@ window.onload = function () {
 let uuid = null;
 let playerjson = null;
 
-async function checkKey() {
-
-}
-
 async function search() {
+  clearAll();
   let playername = document.getElementById('playername').value;
   const a = await fetch('https://api.mojang.com/users/profiles/minecraft/' + playername)
     .then(res => res.json());
@@ -33,6 +30,8 @@ async function search() {
   if (!b.success)
     return alert(b.cause);
   playerjson = b.player;
+  if(playerjson==null)
+    return alert('player data not found');
   document.getElementById('playerName').innerHTML = formatColor(getRank(playerjson));
   document.getElementById('overview').hidden = true;
   document.getElementById('overview').innerHTML = loadOverView(playerjson);
@@ -88,4 +87,14 @@ async function loadSkin() {
   if (uuid == null)
     return alert('player not found');
   document.getElementById('skin').src = 'https://crafatar.com/renders/body/' + uuid + '?overlay';
+  document.getElementById('skin').hidden = false;
+}
+
+function clearAll() {
+  document.getElementById('playerName').innerHTML = 'Loading...';
+  document.getElementById('overview').innerHTML = 'Loading...';
+  document.getElementById('bedWar').innerHTML = 'Loading...';
+  document.getElementById('skyWar').innerHTML = 'Loading...';
+  document.getElementById('mm').innerHTML = 'Loading...';
+  document.getElementById('skin').hidden = true;
 }
