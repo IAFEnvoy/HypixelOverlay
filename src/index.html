@@ -13,6 +13,13 @@
     .titleFont {
       font-size: 30px;
       font-family: "Minecraftia";
+      color: rgb(237, 146, 255);
+    }
+
+    .nameFont {
+      font-size: 40px;
+      font-family: "Minecraftia";
+      color: rgb(237, 146, 255);
     }
 
     .infoFont {
@@ -30,6 +37,8 @@
     <h1 class="menuitem">Hypixel Overlay</h1>
     <button name="Quit" class="menuitem" id="quit" onclick="closeWindow()"></button>
     <button name="Minimize" class="menuitem" id="minimize" onclick="minimize()"></button>
+    <button name="Infomation" class="menuitem" id="info" onclick="openInfo()"></button>
+    <button name="Settings" class="menuitem" id="settings"></button>
   </div>
   <div id="MainBar">
     <!--设置游戏id和模式-->
@@ -43,6 +52,7 @@
       <option value="bedWar">Bed War</option>
       <option value="skyWar">Sky War</option>
       <option value="mm">Murder Mystery</option>
+      <option value="duel">Duel</option>
     </select>
     <button class="titleitems" onclick="search()"
       style="position: absolute;top: 45px;left: 580px;height: 35px;width: 100px;color: white;">
@@ -61,5 +71,24 @@
     <div id="bedWar" class="infoFont" style="position:absolute;top:40px;width:1000px;text-align: left;"></div>
     <div id="skyWar" class="infoFont" style="position:absolute;top:40px;width:1000px;text-align: left;"></div>
     <div id="mm" class="infoFont" style="position:absolute;top:40px;width:1000px;text-align: left;"></div>
+    <div id="duel" class="infoFont" style="position:absolute;top:40px;width:1000px;text-align: left;"></div>
   </div>
+  <div id="infoPage" style="position:absolute;top:40px;left:10px;width:100%;text-align: left;" hidden>
+    <div class="nameFont" style="left:10px;top:0px;width:100%;height: 50px;">Hypixel Overlay</div>
+    <button class="titleitems" style="position:absolute;top:70px;left:10px;height: 45px;width: 270px;"
+      onclick="openGithub()">
+      View Code on Github
+    </button>
+    <div class="infoFont" style="position:absolute;left:10px;top:125px;width:100%;height:50px;">Author : IAFEnvoy</div>
+    <button class="titleitems" style="position:absolute;top:160px;left:10px;height:45px;width:100px;"
+      onclick="openGithubHome()">Github</button>
+    <button class="titleitems" style="position:absolute;top:160px;left:130px;height:45px;width:100px;"
+      onclick="openYoutube()">Youtube</button>
+    <button class="titleitems" style="position:absolute;top:160px;left:250px;height:45px;width:100px;"
+      onclick="openTwitter()">Twitter</button>
+    <button class="titleitems" style="position:absolute;top:160px;left:370px;height:45px;width:100px;"
+      onclick="openBilibili()">Bilibili</button>
+      <div class="infoFont" style="position:absolute;left:10px;top:215px;width:100%;height:50px;">Acknowledge:</div>
+      <div class="infoFont" style="position:absolute;left:30px;top:250px;width:100%;height:50px;">Thank you to <a href="https://crafatar.com">Crafatar</a> for providing avatars.</div>
+    </div>
 </body>

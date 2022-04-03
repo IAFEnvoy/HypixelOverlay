@@ -1,4 +1,4 @@
-let formatDateTime = (date) => {
+const formatDateTime = (date) => {
   if (date == null) return 'Fail to get';
   date = new Date(date);
   var y = date.getFullYear();
@@ -15,15 +15,15 @@ let formatDateTime = (date) => {
   return y + '-' + m + '-' + d + '   ' + h + ' : ' + minute + ' : ' + second;
 };
 
-let formatColor = (data) => {
+const colors = [
+  '#000000', '#0000AA', '#00AA00', '#00AAAA', '#AA0000', '#AA00AA', '#FFAA00', '#AAAAAA',
+  '#555555', '#5555FF', '#55FF55', '#55FFFF', '#FF5555', '#FF55FF', '#FFFF55', '#FFFFFF'
+];
+const formatColor = (data) => {
   if (data == null) return 'Fail to get';
   if (data.indexOf('§') == -1) return data;
   let ret = '';
   let has = false;
-  const colors = [
-    '#000000', '#0000AA', '#00AA00', '#00AAAA', '#AA0000', '#AA00AA', '#FFAA00', '#AAAAAA',
-    '#555555', '#5555FF', '#55FF55', '#55FFFF', '#FF5555', '#FF55FF', '#FFFF55', '#FFFFFF'
-  ];
   for (let i = 0; i < data.length; i++)
     if (data.slice(i, i + 1) == '§') {
       if (has) ret += '</span>';
@@ -39,16 +39,16 @@ const colorMap = Object.fromEntries([
   'black', 'dark_blue', 'dark_green', 'dark_aqua', 'dark_red', 'dark_purple', 'gold', 'gray',
   'dark_gray', 'blue', 'green', 'aqua', 'red', 'light_purple', 'yellow', 'white'
 ].map((c, i) => [c, "§" + i.toString(16)]))
-let formatColorFromString = (name) => colorMap[name.toLowerCase()];
+const formatColorFromString = (name) => colorMap[name.toLowerCase()];
 
-let formatNameString = (name) => {
+const formatNameString = (name) => {
   var words = name.toLowerCase().split('_');
   for (var i = 0; i < words.length; i++)
     words[i] = words[i][0].toUpperCase() + words[i].slice(1);
   return words.join(' ');
 }
 
-let downloadAssets = async (url) => {
+const downloadAssets = async (url) => {
   try {
     return await fetch(url).then(res => res.json());
   } catch (error) {

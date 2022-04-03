@@ -1,13 +1,5 @@
-const shell = require('electron').shell;
 const remote = require('electron').remote;
-const {
-  app,
-  BrowserWindow,
-  Notification
-} = remote;
-const fs = require('fs');
-const con = remote.getGlobal('console');
-const homedir = app.getPath('home');
+const { shell } = require('electron');
 
 window.onload = function () {
   apikey = '47243deb-ad0b-45c7-8367-c9320a26f2c4';
@@ -23,13 +15,13 @@ async function search() {
   const a = await downloadAssets('https://api.mojang.com/users/profiles/minecraft/' + playername);
   uuid = a.id;
   if (uuid == null)
-    return alert('player not found');
+    return alert('Player Not Found !');
   const b = await downloadAssets('https://api.hypixel.net/player?key=' + apikey + '&uuid=' + uuid);
   if (!b.success)
     return alert(b.cause);
   playerjson = b.player;
-  if(playerjson==null)
-    return alert('player data not found');
+  if (playerjson == null)
+    return alert('Player Data Not Found !');
   document.getElementById('playerName').innerHTML = formatColor(getRank(playerjson));
   document.getElementById('overview').hidden = true;
   document.getElementById('overview').innerHTML = loadOverView(playerjson);
@@ -40,7 +32,9 @@ async function search() {
   document.getElementById('skyWar').hidden = true;
   document.getElementById('skyWar').innerHTML = loadSkyWar(playerjson);
   document.getElementById('mm').hidden = true;
-  document.getElementById('mm').innerHTML = loadMuederMystery(playerjson);
+  document.getElementById('mm').innerHTML = loadMurderMystery(playerjson);
+  document.getElementById('duel').hidden = true;
+  document.getElementById('duel').innerHTML = loadDuel(playerjson);
   document.getElementById(document.getElementById('mode').value).hidden = false;
   onShow();
   loadSkin();
@@ -53,16 +47,17 @@ function changeDiv() {
   document.getElementById('guild').hidden = true;
   document.getElementById('status').hidden = true;
   document.getElementById('mm').hidden = true;
+  document.getElementById('duel').hidden = true;
   document.getElementById(document.getElementById('mode').value).hidden = false;
   onShow();
 }
 
-function closeWindow() {
-  remote.getCurrentWindow().close();
-}
+function closeWindow() { 
+  remote.getCurrentWindow().close(); }
 
-function minimize() {
-  remote.getCurrentWindow().minimize();
+
+function minimize() { 
+  remote.getCurrentWindow().minimize(); 
 }
 
 function onShow() {
@@ -88,5 +83,32 @@ function clearAll() {
   document.getElementById('bedWar').innerHTML = 'Loading...';
   document.getElementById('skyWar').innerHTML = 'Loading...';
   document.getElementById('mm').innerHTML = 'Loading...';
+  document.getElementById('duel').innerHTML = 'Loading...';
   document.getElementById('skin').hidden = true;
+}
+
+function openInfo(){
+  document.getElementById('playerData').hidden ^= true;
+  document.getElementById('infoPage').hidden ^= true;
+  document.getElementById('MainBar').hidden ^= true;
+}
+
+function openGithub(){
+  shell.openExternal('https://github.com/IAFEnvoy/HypixelOverlay');
+}
+
+function openGithubHome(){
+  shell.openExternal('https://github.com/IAFEnvoy');
+}
+
+function openYoutube(){
+  shell.openExternal('https://www.youtube.com/channel/UCCFkjPNRg6Dhf5cTyTUxTAA');
+}
+
+function openTwitter(){
+  shell.openExternal('https://twitter.com/IAFEnvoy');
+}
+
+function openBilibili(){
+  shell.openExternal('https://space.bilibili.com/483982304');
 }

@@ -1,6 +1,6 @@
 const { app, BrowserWindow, globalShortcut } = require('electron');
 let win;
-let windowConfig = {
+const windowConfig = {
   width: 800,
   height: 600,
   frame: false,
@@ -20,7 +20,7 @@ let windowConfig = {
   webPreferences: { nodeIntegration: true, enableRemoteModule: true, contextIsolation: false }
 };
 
-function createWindow() {
+const createWindow = () => {
   win = new BrowserWindow(windowConfig);
   win.loadFile('src/index.html');
   // win.webContents.openDevTools();

@@ -98,9 +98,11 @@ h1 {
     background: transparent;
     background-image: url("../assets/info1.png");
     background-size: cover;
-    height: 35px;
-    width: 35px;
-    display: none;
+    float: right;
+    height: 30px;
+    width: 30px;
+    margin: 2.5px;
+    margin-left: 0;
     border: none;
     outline: none;
     filter: drop-shadow(1px 1px rgb(0, 0, 0));
@@ -110,8 +112,8 @@ h1 {
 #info:hover {
     background-image: url("../assets/info2.png");
     background-size: cover;
-    height: 35px;
-    width: 35px;
+    height: 30px;
+    width: 30px;
     cursor: pointer;
 }
 
@@ -119,8 +121,11 @@ h1 {
     background: transparent;
     background-image: url("../assets/settings1.png");
     background-size: cover;
-    height: 35px;
-    width: 35px;
+    float: right;
+    height: 30px;
+    width: 30px;
+    margin: 2.5px;
+    margin-left: 0;
     display: none;
     border: none;
     outline: none;
@@ -131,31 +136,8 @@ h1 {
 #settings:hover {
     background-image: url("../assets/settings2.png");
     background-size: cover;
-    height: 35px;
-    width: 35px;
-    cursor: pointer;
-}
-
-#update {
-    background: transparent;
-    background-image: url("../assets/update1.png");
-    background-size: cover;
-    height: 32px;
-    width: 32px;
-    position: relative;
-    top: -2.5px;
-    display: none;
-    border: none;
-    outline: none;
-    filter: drop-shadow(1px 1px rgb(0, 0, 0));
-    -webkit-app-region: no-drag;
-}
-
-#update:hover {
-    background-image: url("../assets/update2.png");
-    background-size: cover;
-    height: 32px;
-    width: 32px;
+    height: 30px;
+    width: 30px;
     cursor: pointer;
 }
 

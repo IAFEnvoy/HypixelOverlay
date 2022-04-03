@@ -1,6 +1,5 @@
-function getRank(api) {
+const getRank = (api) => {
   let rank = api.newPackageRank;
-  //add rankcolor for yts and staff
   let plus = api.rankPlusColor;
   if (plus !== undefined)
     plus = formatColorFromString(plus);
@@ -19,7 +18,7 @@ function getRank(api) {
   else return `§7${api.displayname}`;
 }
 
-function getGuildLevel(exp) {
+const getGuildLevel = (exp) => {
   let guildLevelTables = [100000, 150000, 250000, 500000, 750000, 1000000, 1250000, 1500000, 2000000, 2500000, 2500000, 2500000, 2500000, 2500000, 3000000];
   let level = 0;
   for (var i = 0; ; i++) {
@@ -30,7 +29,7 @@ function getGuildLevel(exp) {
   }
 }
 
-async function loadSkyWarRanked(uuid) {
+const loadSkyWarRanked = async (uuid) => {
   const b = await downloadAssets('https://api.hypixel.net/player/ranked/skywars?key=' + apikey + '&uuid=' + uuid);
   if (!b.success)
     return document.getElementById('skyWar').innerHTML += b.cause;
@@ -38,24 +37,40 @@ async function loadSkyWarRanked(uuid) {
   document.getElementById('skyWar').innerHTML += `Score : ${swRankJson.score} (#${swRankJson.position})`;
 }
 
-async function loadGuild(uuid) {
+const loadGuild = async (uuid) => {
+  document.getElementById('guild').innerHTML = 'Loading...';
   const b = await downloadAssets('https://api.hypixel.net/guild?key=' + apikey + '&player=' + uuid);
   if (!b.success)
     return document.getElementById('guild').innerHTML = b.cause;
   guildJson = b.guild;
   if (guildJson == null)
     return document.getElementById('guild').innerHTML = 'No Guild';
-
-  let string = `Name : ${guildJson.name}<br>
-    Created : ${formatDateTime(guildJson.created)}<br>
-    Level : ${getGuildLevel(guildJson.exp).toFixed(2)}<br>
-    Tag : ${formatColor(formatColorFromString(guildJson.tagColor) + '[' + guildJson.tag + ']')}<br>
-    Members : ${guildJson.members.length}<br>
-    Max Online : ${guildJson.achievements.ONLINE_PLAYERS}`;
-  document.getElementById('guild').innerHTML = string;
+  document.getElementById('guild').innerHTML = `Name : ${guildJson.name}<br>
+  Created : ${formatDateTime(guildJson.created)}<br>
+  Level : ${getGuildLevel(guildJson.exp).toFixed(2)} | Guild Tag : ${formatColor(formatColorFromString(guildJson.tagColor) + '[' + guildJson.tag + ']')}<br>
+  Members : ${guildJson.members.length} | Max Online : ${guildJson.achievements.ONLINE_PLAYERS}<br><br>`;
+  let playerGuildJson = null;
+  for (var i=0;i<guildJson.members.length;i++) 
+    if (guildJson.members[i].uuid == uuid) {
+      playerGuildJson = guildJson.members[i];
+      break;
+    }
+  let rankJson=null;
+  for (var i=0;i<guildJson.ranks.length;i++) 
+    if (guildJson.ranks[i].name == playerGuildJson.rank) {
+      rankJson = guildJson.ranks[i];
+      break;
+    }
+  if (playerGuildJson == null) return;
+  if (rankJson == null) return;
+  document.getElementById('guild').innerHTML+=`Join Time : ${formatDateTime(playerGuildJson.joined)}<br>
+  Guild Rank : ${playerGuildJson.rank}<br>
+  Guild Tag : ${formatColor(formatColorFromString(guildJson.tagColor) + '[' + rankJson.tag + ']')}<br>
+  Priority : ${rankJson.priority}`
 }
 
-async function loadStatus(uuid) {
+const loadStatus = async (uuid) => {
+  document.getElementById('status').innerHTML = 'Loading...';
   const b = await downloadAssets('https://api.hypixel.net/status?key=' + apikey + '&uuid=' + uuid);
   if (!b.success)
     return document.getElementById('status').innerHTML = b.cause;
@@ -105,7 +120,7 @@ const loadSkyWar = (api) => {
   Wins : ${skywar.wins ?? 0} | Losses : ${skywar.losses ?? 0} | W/L : ${((skywar.wins ?? 0) / (skywar.losses ?? 0)).toFixed(2)}`;
 }
 
-const loadMuederMystery = (api) => {
+const loadMurderMystery = (api) => {
   mm = api.stats?.MurderMystery ?? {};
   return `Coins : ${mm.coins ?? 0} | Gold Collected : ${mm.coins_pickedup ?? 0}<br>
   Murder Chance : ${mm.murderer_chance ?? 0}% | Detective Chance : ${mm.detective_chance ?? 0}%<br>
@@ -115,4 +130,12 @@ const loadMuederMystery = (api) => {
   Kills As Murderer : ${mm.kills_as_murderer ?? 0} | Heroes : ${mm.was_hero ?? 0}<br>
   Kills As Infected : ${mm.kills_as_infected ?? 0} | Kills As Survivor : ${mm.kills_as_survivor ?? 0}<br>
   Longest Time Survive : ${mm.longest_time_as_survivor_seconds ?? 0}s | Alpha Chance : ${mm.alpha_chance ?? 0}%`
+}
+
+const loadDuel = (api) => {
+  duel = api.stats?.Duels ?? {};
+  return `Coins : ${duel.coins ?? 0} | Ping Preference : ${duel.pingPreference ?? 0}ms<br>
+  Wins : ${duel.wins ?? 0} | Losses : ${duel.losses} | W/L : ${((duel.wins ?? 0) / (duel.losses ?? 0)).toFixed(2)}<br>
+  Best Winstreak : ${duel.best_all_modes_winstreak ?? '?'} | Current Winstreak : ${duel.current_winstreak ?? '?'}<br>
+  Kills : ${duel.kills ?? 0} | Deaths : ${duel.deaths ?? 0} | K/D : ${((duel.kills ?? 0) / (duel.deaths ?? 0)).toFixed(2)}<br>`
 }
