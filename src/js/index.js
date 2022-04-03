@@ -20,13 +20,11 @@ let playerjson = null;
 async function search() {
   clearAll();
   let playername = document.getElementById('playername').value;
-  const a = await fetch('https://api.mojang.com/users/profiles/minecraft/' + playername)
-    .then(res => res.json());
+  const a = await downloadAssets('https://api.mojang.com/users/profiles/minecraft/' + playername);
   uuid = a.id;
   if (uuid == null)
     return alert('player not found');
-  const b = await fetch('https://api.hypixel.net/player?key=' + apikey + '&uuid=' + uuid)
-    .then(res => res.json());
+  const b = await downloadAssets('https://api.hypixel.net/player?key=' + apikey + '&uuid=' + uuid);
   if (!b.success)
     return alert(b.cause);
   playerjson = b.player;
@@ -71,21 +69,15 @@ function onShow() {
   if (uuid == null) return;
   if (!document.getElementById('skyWar').hidden && !document.getElementById('skyWar').innerHTML.includes('Sky War Ranked')) {
     document.getElementById('skyWar').innerHTML += '<br>Sky War Ranked<br>';
-    loadSkyWarRanked();
+    loadSkyWarRanked(uuid);
   }
   if (!document.getElementById('guild').hidden)
-    loadGuild();
+    loadGuild(uuid);
   if (!document.getElementById('status').hidden)
-    loadStatus();
+    loadStatus(uuid);
 }
 
 async function loadSkin() {
-  let playername = document.getElementById('playername').value;
-  const a = await fetch('https://api.mojang.com/users/profiles/minecraft/' + playername)
-    .then(res => res.json());
-  var uuid = a.id;
-  if (uuid == null)
-    return alert('player not found');
   document.getElementById('skin').src = 'https://crafatar.com/renders/body/' + uuid + '?overlay';
   document.getElementById('skin').hidden = false;
 }

@@ -30,31 +30,16 @@ function getGuildLevel(exp) {
   }
 }
 
-async function loadSkyWarRanked() {
-  let playername = document.getElementById('playername').value;
-  const a = await fetch('https://api.mojang.com/users/profiles/minecraft/' + playername)
-    .then(res => res.json());
-  uuid = a.id;
-  if (uuid == null)
-    return console.error('player not found');
-  const b = await fetch('https://api.hypixel.net/player/ranked/skywars?key=' + apikey + '&uuid=' + uuid)
-    .then(res => res.json());
+async function loadSkyWarRanked(uuid) {
+  const b = await downloadAssets('https://api.hypixel.net/player/ranked/skywars?key=' + apikey + '&uuid=' + uuid);
   if (!b.success)
     return document.getElementById('skyWar').innerHTML += b.cause;
   swRankJson = b.result;
   document.getElementById('skyWar').innerHTML += `Score : ${swRankJson.score} (#${swRankJson.position})`;
 }
 
-async function loadGuild() {
-  document.getElementById('guild').innerHTML = 'Loading...';
-  let playername = document.getElementById('playername').value;
-  const a = await fetch('https://api.mojang.com/users/profiles/minecraft/' + playername)
-    .then(res => res.json());
-  uuid = a.id;
-  if (uuid == null)
-    return console.error('player not found');
-  const b = await fetch('https://api.hypixel.net/guild?key=' + apikey + '&player=' + uuid)
-    .then(res => res.json());
+async function loadGuild(uuid) {
+  const b = await downloadAssets('https://api.hypixel.net/guild?key=' + apikey + '&player=' + uuid);
   if (!b.success)
     return document.getElementById('guild').innerHTML = b.cause;
   guildJson = b.guild;
@@ -70,16 +55,8 @@ async function loadGuild() {
   document.getElementById('guild').innerHTML = string;
 }
 
-async function loadStatus() {
-  document.getElementById('status').innerHTML = 'Loading...';
-  let playername = document.getElementById('playername').value;
-  const a = await fetch('https://api.mojang.com/users/profiles/minecraft/' + playername)
-    .then(res => res.json());
-  uuid = a.id;
-  if (uuid == null)
-    return console.error('player not found');
-  const b = await fetch('https://api.hypixel.net/status?key=' + apikey + '&uuid=' + uuid)
-    .then(res => res.json());
+async function loadStatus(uuid) {
+  const b = await downloadAssets('https://api.hypixel.net/status?key=' + apikey + '&uuid=' + uuid);
   if (!b.success)
     return document.getElementById('status').innerHTML = b.cause;
   statusJson = b.session;

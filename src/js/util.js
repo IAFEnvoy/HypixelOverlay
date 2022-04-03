@@ -43,7 +43,15 @@ let formatColorFromString = (name) => colorMap[name.toLowerCase()];
 
 let formatNameString = (name) => {
   var words = name.toLowerCase().split('_');
-  for(var i=0 ;i<words.length;i++)
-    words[i]=words[i][0].toUpperCase()+words[i].slice(1);
+  for (var i = 0; i < words.length; i++)
+    words[i] = words[i][0].toUpperCase() + words[i].slice(1);
   return words.join(' ');
+}
+
+let downloadAssets = async (url) => {
+  try {
+    return await fetch(url).then(res => res.json());
+  } catch (error) {
+    return {};
+  }
 }
