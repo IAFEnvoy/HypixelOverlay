@@ -23,7 +23,7 @@ let windowConfig = {
 function createWindow() {
   win = new BrowserWindow(windowConfig);
   win.loadFile('src/index.html');
-  win.webContents.openDevTools();
+  // win.webContents.openDevTools();
   win.on('close', () => { win = null; });
 }
 
@@ -33,6 +33,6 @@ app.on('window-all-closed', () => {
 });
 
 app.on('activate', () => {
-  if (BrowserWindow.getAllWindows().length == null) 
+  if (BrowserWindow.getAllWindows().length == null)
     createWindow();
 })

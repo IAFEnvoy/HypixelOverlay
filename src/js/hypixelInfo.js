@@ -2,8 +2,8 @@ function getRank(api) {
   let rank = api.newPackageRank;
   //add rankcolor for yts and staff
   let plus = api.rankPlusColor;
-  if (plus !== undefined) 
-    plus=formatColorFromString(plus);
+  if (plus !== undefined)
+    plus = formatColorFromString(plus);
   else plus = '§c';
   if (api.rank !== undefined) {
     if (api.rank === 'YOUTUBER') return `§c[§fYT§c] ${api.displayname}`;
@@ -127,4 +127,4 @@ const loadMuederMystery = ({ stats: { MurderMystery: mm } }) =>
   Knife Kills : ${mm.knife_kills ?? 0} | Bow Kills : ${mm.bow_kills ?? 0}<br>
   Kills As Murderer : ${mm.kills_as_murderer ?? 0} | Heroes : ${mm.was_hero ?? 0}<br>
   Kills As Infected : ${mm.kills_as_infected ?? 0} | Kills As Survivor : ${mm.kills_as_survivor ?? 0}<br>
-  Longest Time As Survivor : ${mm.longest_time_as_survivor_seconds ?? 0}s | Alpha Chance : ${mm.alpha_chance ?? 0}%`
+  Longest Time Survive : ${mm.longest_time_as_survivor_seconds ?? 0}s | Alpha Chance : ${mm.alpha_chance ?? 0}%`

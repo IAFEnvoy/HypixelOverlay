@@ -35,7 +35,7 @@ let formatColor = (data) => {
   return ret;
 }
 
-let colorMap = Object.fromEntries([
+const colorMap = Object.fromEntries([
   'black', 'dark_blue', 'dark_green', 'dark_aqua', 'dark_red', 'dark_purple', 'gold', 'gray',
   'dark_gray', 'blue', 'green', 'aqua', 'red', 'light_purple', 'yellow', 'white'
 ].map((c, i) => [c, "§" + i.toString(16)]))

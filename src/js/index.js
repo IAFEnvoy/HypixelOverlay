@@ -46,6 +46,7 @@ async function search() {
   document.getElementById('mm').innerHTML = loadMuederMystery(playerjson);
   document.getElementById(document.getElementById('mode').value).hidden = false;
   onShow();
+  loadSkin();
 }
 
 function changeDiv() {
@@ -77,4 +78,14 @@ function onShow() {
     loadGuild();
   if (!document.getElementById('status').hidden)
     loadStatus();
+}
+
+async function loadSkin() {
+  let playername = document.getElementById('playername').value;
+  const a = await fetch('https://api.mojang.com/users/profiles/minecraft/' + playername)
+    .then(res => res.json());
+  var uuid = a.id;
+  if (uuid == null)
+    return alert('player not found');
+  document.getElementById('skin').src = 'https://crafatar.com/renders/body/' + uuid + '?overlay';
 }
