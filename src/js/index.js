@@ -1,16 +1,31 @@
 const remote = require('electron').remote;
 const { shell } = require('electron');
 
+let config = {};
+
 window.onload = function () {
-  apikey = '47243deb-ad0b-45c7-8367-c9320a26f2c4';
-  //TODO:config file
+  config = loadConfig();
+  apikey = config.apikey;
+  document.getElementById('apiKey').value = config.apikey ?? '';
 }
 
 let uuid = null;
 let playerjson = null;
 
+async function checkValid() {
+  if (apikey == '')
+    return 'Please input your API Key in setting!';
+  const a = await downloadAssets('https://api.hypixel.net/key?key=' + apikey);
+  if (!a.success)
+    return a.cause;
+  return 'ok';
+}
+
 async function search() {
   clearAll();
+  let valid = await checkValid();
+  if (valid != 'ok')
+    return alert(valid);
   let playername = document.getElementById('playername').value;
   const a = await downloadAssets('https://api.mojang.com/users/profiles/minecraft/' + playername);
   uuid = a.id;
@@ -52,12 +67,13 @@ function changeDiv() {
   onShow();
 }
 
-function closeWindow() { 
-  remote.getCurrentWindow().close(); }
+function closeWindow() {
+  remote.getCurrentWindow().close();
+}
 
 
-function minimize() { 
-  remote.getCurrentWindow().minimize(); 
+function minimize() {
+  remote.getCurrentWindow().minimize();
 }
 
 function onShow() {
@@ -87,28 +103,58 @@ function clearAll() {
   document.getElementById('skin').hidden = true;
 }
 
-function openInfo(){
-  document.getElementById('playerData').hidden ^= true;
-  document.getElementById('infoPage').hidden ^= true;
-  document.getElementById('MainBar').hidden ^= true;
-}
-
-function openGithub(){
+function openGithub() {
   shell.openExternal('https://github.com/IAFEnvoy/HypixelOverlay');
 }
 
-function openGithubHome(){
+function openGithubHome() {
   shell.openExternal('https://github.com/IAFEnvoy');
 }
 
-function openYoutube(){
+function openYoutube() {
   shell.openExternal('https://www.youtube.com/channel/UCCFkjPNRg6Dhf5cTyTUxTAA');
 }
 
-function openTwitter(){
+function openTwitter() {
   shell.openExternal('https://twitter.com/IAFEnvoy');
 }
 
-function openBilibili(){
+function openBilibili() {
   shell.openExternal('https://space.bilibili.com/483982304');
+}
+
+let pageNow = 'playerData';
+
+function openInfo() {
+  if (pageNow != 'info')
+    pageNow = 'info';
+  else pageNow = 'playerData';
+  changePage();
+}
+
+function openSetting() {
+  if (pageNow != 'setting')
+    pageNow = 'setting';
+  else {
+    pageNow = 'playerData';
+    config.apikey = document.getElementById('apiKey').value;
+    apikey = config.apikey;
+    saveConfig(config);
+  }
+  changePage();
+}
+
+function changePage() {
+  document.getElementById('playerData').hidden = true;
+  document.getElementById('MainBar').hidden = true;
+  document.getElementById('infoPage').hidden = true;
+  document.getElementById('settingPage').hidden = true;
+  if (pageNow == 'playerData') {
+    document.getElementById('playerData').hidden = false;
+    document.getElementById('MainBar').hidden = false;
+  }
+  if (pageNow == 'info')
+    document.getElementById('infoPage').hidden = false;
+  if (pageNow == 'setting')
+    document.getElementById('settingPage').hidden = false;
 }

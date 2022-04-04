@@ -5,6 +5,7 @@
   <title>Hypixel Overlay</title>
   <script src="js/base64.js"></script>
   <script src="js/util.js"></script>
+  <script src="js/config.js"></script>
   <script src="js/hypixelInfo.js"></script>
   <script src="js/index.js"></script>
   <link rel="styleSheet" href="nano.min.css" />
@@ -38,10 +39,9 @@
     <button name="Quit" class="menuitem" id="quit" onclick="closeWindow()"></button>
     <button name="Minimize" class="menuitem" id="minimize" onclick="minimize()"></button>
     <button name="Infomation" class="menuitem" id="info" onclick="openInfo()"></button>
-    <button name="Settings" class="menuitem" id="settings"></button>
+    <button name="Settings" class="menuitem" id="settings" onclick="openSetting()"></button>
   </div>
   <div id="MainBar">
-    <!--设置游戏id和模式-->
     <input class="titleitems" type="text" id="playername"
       style="position: absolute;top: 42px;left: 5px;height: 35px;text-align:left;text-indent: 10px;color: white;">
     <select id="mode" class="custom-select_trigger" style="position: absolute;top: 45px;left: 300px;height: 35px;"
@@ -88,7 +88,14 @@
       onclick="openTwitter()">Twitter</button>
     <button class="titleitems" style="position:absolute;top:160px;left:370px;height:45px;width:100px;"
       onclick="openBilibili()">Bilibili</button>
-      <div class="infoFont" style="position:absolute;left:10px;top:215px;width:100%;height:50px;">Acknowledge:</div>
-      <div class="infoFont" style="position:absolute;left:30px;top:250px;width:100%;height:50px;">Thank you to <a href="https://crafatar.com">Crafatar</a> for providing avatars.</div>
-    </div>
+    <div class="infoFont" style="position:absolute;left:10px;top:215px;width:100%;height:50px;">Acknowledge:</div>
+    <div class="infoFont" style="position:absolute;left:30px;top:250px;width:100%;height:50px;">Thank you to <a
+        href="https://crafatar.com">Crafatar</a> for providing avatars.</div>
+  </div>
+  <div id="settingPage" style="position:absolute;top:40px;left:10px;width:100%;text-align: left;" hidden>
+    <div class="nameFont" style="left:10px;top:0px;width:100%;height: 50px;">Settings</div>
+    <div class="infoFont" style="left:10px;top:80px;width:100%;height: 50px;">Hypixel API Key : </div>
+    <input class="titleitems" type="text" id="apiKey"
+      style="position: absolute;top: 50px;left:230px;height:25px;width:500px;text-align:left;text-indent: 10px;">
+  </div>
 </body>
