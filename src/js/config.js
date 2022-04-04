@@ -1,6 +1,6 @@
 const fs = require('fs');
 
-const configPath = require('path').join(__dirname, 'config.json');
+const configPath = './config.json';
 
 let loadConfig = () => {
   if (!fs.existsSync(configPath))
