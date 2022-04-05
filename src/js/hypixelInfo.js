@@ -24,20 +24,20 @@ const loadPlayer = async (playername, apikey) => {
 const getRank = () => {
   let rank = playerDataJson.newPackageRank;
   let plus = playerDataJson.rankPlusColor;
-  if (plus !== undefined)
+  if (plus != undefined)
     plus = formatColorFromString(plus);
   else plus = '§c';
-  if (playerDataJson.rank !== undefined) {
-    if (playerDataJson.rank === 'YOUTUBER') return `§c[§fYT§c]`;
-    else if (playerDataJson.rank === 'ADMIN') return `§4[ADMIN]`;
-    else if (playerDataJson.rank === 'MODERATOR') return `§2[MOD]`;
-    else if (playerDataJson.rank === 'HELPER') return `§9[HELP]`;
-  } else if (rank === 'MVP_PLUS') {
-    if (playerDataJson.monthlyPackageRank === 'NONE' || !playerDataJson.hasOwnProperty('monthlyPackageRank')) return `§b[MVP${plus}+§b]`;
+  if (playerDataJson.rank != undefined)
+    if (playerDataJson.rank == 'YOUTUBER') return `§c[§fYT§c]`;
+    else if (playerDataJson.rank == 'ADMIN') return `§4[ADMIN]`;
+    else if (playerDataJson.rank == 'MODERATOR') return `§2[MOD]`;
+    else if (playerDataJson.rank == 'HELPER') return `§9[HELP]`;
+  if (rank == 'MVP_PLUS') {
+    if (playerDataJson.monthlyPackageRank == 'NONE' || !playerDataJson.hasOwnProperty('monthlyPackageRank')) return `§b[MVP${plus}+§b]`;
     else return `§6[MVP${plus}++§6]`;
-  } else if (rank === 'MVP') return `§b[MVP]`;
-  else if (rank === 'VIP_PLUS') return `§a[VIP§6+§a]`;
-  else if (rank === 'VIP') return `§a[VIP]`;
+  } else if (rank == 'MVP') return `§b[MVP]`;
+  else if (rank == 'VIP_PLUS') return `§a[VIP§6+§a]`;
+  else if (rank == 'VIP') return `§a[VIP]`;
   else return `§7`;
 }
 
@@ -51,8 +51,8 @@ const loadSkyWarRanked = async () => {
     if (!b.success)
       return b.cause;
   }
-  if(swRankJson==null)
-  return 'No result was found';
+  if (swRankJson == null)
+    return 'No result was found';
   return `Score : ${swRankJson.score} (#${swRankJson.position})`;
 }
 
@@ -121,7 +121,8 @@ const loadOverView = () => {
   Karma : ${api.karma ?? 0}<br>
   Achievement Point :  ${api.achievementPoints ?? 0}<br>
   General Wins : ${achievements.general_wins ?? 0}<br>
-  Complete Quest : ${achievements.general_quest_master ?? 0} | Complete Challenge : ${achievements.general_challenger ?? 0}<br>
+  Complete Quest : ${achievements.general_quest_master ?? 0}<br>
+  Complete Challenge : ${achievements.general_challenger ?? 0}<br>
   General Coins : ${achievements.general_coins ?? 0}<br>
   Language : ${formatNameString(api.userLanguage ?? 'ENGLISH')}<br>
   First Login : ${formatDateTime(api.firstLogin)}<br>
@@ -171,6 +172,19 @@ const loadDuel = () => {
   Kills : ${duel.kills ?? 0} | Deaths : ${duel.deaths ?? 0} | K/D : ${((duel.kills ?? 0) / (duel.deaths ?? 0)).toFixed(2)}<br>`
 }
 
-const loadUHC=()=>{
-  uhc=playerDataJson.stats?.UHC??{};
+const loadUHC = () => {
+  uhc = playerDataJson.stats?.UHC ?? {};
+  return `Score : ${uhc.score ?? 0} | Coins : ${uhc.coins ?? 0} | Wins : ${uhc.wins ?? 0}<br>
+  Kills : ${uhc.kills ?? 0} | Deaths : ${uhc.deaths ?? 0} | K/D : ${((uhc.kills ?? 0) / (uhc.deaths ?? 0)).toFixed(2)}<br>`
+}
+
+const loadMegaWall = () => {
+  mw = playerDataJson.stats?.Walls3 ?? {};
+  return `Coins : ${mw.coins ?? 0} | Wither Damage : ${mw.wither_damage ?? 0}<br>
+  Chosen Class : ${formatNameString(mw.chosen_class ?? 'None')}<br>
+  Wins : ${mw.wins ?? 0} | Losses : ${mw.losses ?? 0} | W/L : ${((mw.wins ?? 0) / (mw.losses ?? 0)).toFixed(2)}<br>
+  Kills : ${mw.kills ?? 0} | Deaths : ${mw.deaths ?? 0}<br>
+  K/D : ${((mw.kills ?? 0) / (mw.deaths ?? 0)).toFixed(2)} | Assists : ${mw.assists ?? 0}<br>
+  Final kills : ${mw.final_kills ?? 0} | Final deaths : ${mw.final_deaths ?? 0}<br>
+  FKDR : ${((mw.final_kills ?? 0) / (mw.final_deaths ?? 0)).toFixed(2)} | Final Assists : ${mw.final_assists ?? 0}<br>`
 }

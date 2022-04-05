@@ -66,6 +66,12 @@ async function changeDiv() {
     case 'duel':
       document.getElementById('playerInfo').innerHTML = loadDuel();
       break;
+    case 'uhc':
+      document.getElementById('playerInfo').innerHTML = loadUHC();
+      break;
+    case 'mw':
+      document.getElementById('playerInfo').innerHTML = loadMegaWall();
+      break;
     default:
       document.getElementById('playerInfo').innerHTML = '';
       break;
