@@ -50,6 +50,7 @@ const formatNameString = (name) => {
 
 const downloadAssets = async (url) => {
   try {
+    console.log(url);
     return await fetch(url).then(res => res.json());
   } catch (error) {
     return {};

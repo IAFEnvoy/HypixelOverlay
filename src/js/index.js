@@ -22,49 +22,54 @@ async function checkValid() {
 }
 
 async function search() {
-  clearAll();
+  document.getElementById('skin').hidden = true;
+  document.getElementById('playerName').innerHTML = 'Loading...';
+  document.getElementById('playerInfo').innerHTML = 'Loading...';
+
   let valid = await checkValid();
   if (valid != 'ok')
     return alert(valid);
-  let playername = document.getElementById('playername').value;
-  const a = await downloadAssets('https://api.mojang.com/users/profiles/minecraft/' + playername);
-  uuid = a.id;
-  if (uuid == null)
-    return alert('Player Not Found !');
-  const b = await downloadAssets('https://api.hypixel.net/player?key=' + apikey + '&uuid=' + uuid);
-  if (!b.success)
-    return alert(b.cause);
-  playerjson = b.player;
-  if (playerjson == null)
-    return alert('Player Data Not Found !');
-  document.getElementById('playerName').innerHTML = formatColor(getRank(playerjson));
-  document.getElementById('overview').hidden = true;
-  document.getElementById('overview').innerHTML = loadOverView(playerjson);
-  document.getElementById('guild').hidden = true;
-  document.getElementById('status').hidden = true;
-  document.getElementById('bedWar').hidden = true;
-  document.getElementById('bedWar').innerHTML = loadBedWar(playerjson).replace('undefined', ' ? ');
-  document.getElementById('skyWar').hidden = true;
-  document.getElementById('skyWar').innerHTML = loadSkyWar(playerjson);
-  document.getElementById('mm').hidden = true;
-  document.getElementById('mm').innerHTML = loadMurderMystery(playerjson);
-  document.getElementById('duel').hidden = true;
-  document.getElementById('duel').innerHTML = loadDuel(playerjson);
-  document.getElementById(document.getElementById('mode').value).hidden = false;
-  onShow();
-  loadSkin();
+  if (!await loadPlayer(document.getElementById('playername').value, apikey))
+    return;
+  document.getElementById('playerName').innerHTML = getName();
+  changeDiv();
+
+  document.getElementById('skin').src = 'https://crafatar.com/renders/body/' + getUUID() + '?overlay';
+  document.getElementById('skin').hidden = false;
 }
 
-function changeDiv() {
-  document.getElementById('overview').hidden = true;
-  document.getElementById('bedWar').hidden = true;
-  document.getElementById('skyWar').hidden = true;
-  document.getElementById('guild').hidden = true;
-  document.getElementById('status').hidden = true;
-  document.getElementById('mm').hidden = true;
-  document.getElementById('duel').hidden = true;
-  document.getElementById(document.getElementById('mode').value).hidden = false;
-  onShow();
+async function changeDiv() {
+  if (playerDataJson == null) return;
+  let mode = document.getElementById('mode').value;
+  switch (mode) {
+    case 'overview':
+      document.getElementById('playerInfo').innerHTML = loadOverView();
+      break;
+    case 'guild':
+      document.getElementById('playerInfo').innerHTML = 'Loading...';
+      document.getElementById('playerInfo').innerHTML = await loadGuild();
+      break;
+    case 'status':
+      document.getElementById('playerInfo').innerHTML = 'Loading...';
+      document.getElementById('playerInfo').innerHTML = await loadStatus();
+      break;
+    case 'bw':
+      document.getElementById('playerInfo').innerHTML = loadBedWar();
+      break;
+    case 'sw':
+      document.getElementById('playerInfo').innerHTML = loadSkyWar() + `<br><br>Sky War Ranked <br>`;
+      document.getElementById('playerInfo').innerHTML += await loadSkyWarRanked();
+      break;
+    case 'mm':
+      document.getElementById('playerInfo').innerHTML = loadMurderMystery();
+      break;
+    case 'duel':
+      document.getElementById('playerInfo').innerHTML = loadDuel();
+      break;
+    default:
+      document.getElementById('playerInfo').innerHTML = '';
+      break;
+  }
 }
 
 function closeWindow() {
@@ -74,33 +79,6 @@ function closeWindow() {
 
 function minimize() {
   remote.getCurrentWindow().minimize();
-}
-
-function onShow() {
-  if (uuid == null) return;
-  if (!document.getElementById('skyWar').hidden && !document.getElementById('skyWar').innerHTML.includes('Sky War Ranked')) {
-    document.getElementById('skyWar').innerHTML += '<br>Sky War Ranked<br>';
-    loadSkyWarRanked(uuid);
-  }
-  if (!document.getElementById('guild').hidden)
-    loadGuild(uuid);
-  if (!document.getElementById('status').hidden)
-    loadStatus(uuid);
-}
-
-async function loadSkin() {
-  document.getElementById('skin').src = 'https://crafatar.com/renders/body/' + uuid + '?overlay';
-  document.getElementById('skin').hidden = false;
-}
-
-function clearAll() {
-  document.getElementById('playerName').innerHTML = 'Loading...';
-  document.getElementById('overview').innerHTML = 'Loading...';
-  document.getElementById('bedWar').innerHTML = 'Loading...';
-  document.getElementById('skyWar').innerHTML = 'Loading...';
-  document.getElementById('mm').innerHTML = 'Loading...';
-  document.getElementById('duel').innerHTML = 'Loading...';
-  document.getElementById('skin').hidden = true;
 }
 
 function openGithub() {
