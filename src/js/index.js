@@ -72,6 +72,15 @@ async function changeDiv() {
     case 'mw':
       document.getElementById('playerInfo').innerHTML = loadMegaWall();
       break;
+    case 'bb':
+      document.getElementById('playerInfo').innerHTML = loadBuildBattle();
+      break;
+    case 'pit':
+      document.getElementById('playerInfo').innerHTML = loadThePit();
+      break;
+    case 'bsg':
+      document.getElementById('playerInfo').innerHTML = loadBlitzSurvivalGames();
+      break;
     default:
       document.getElementById('playerInfo').innerHTML = '';
       break;
