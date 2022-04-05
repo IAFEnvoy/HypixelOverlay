@@ -12,10 +12,8 @@ const windowConfig = {
   y: 20,
   minWidth: 400,
   icon: __dirname + '/assets/logo.ico',
-  alwaysOnTop: true,
+  // alwaysOnTop: true,
   title: 'Hypixel Overlay',
-  skipTaskbar: false,
-  hasShadow: true,
   webPreferences: { nodeIntegration: true, enableRemoteModule: true, contextIsolation: false }
 };
 
