@@ -191,7 +191,7 @@ const loadMegaWall = () => {
 
 const loadBuildBattle = () => {
   bb = playerDataJson.stats?.BuildBattle ?? {};
-  return `Game played : ${bb.games_played} | Score : ${bb.score ?? 0} | Wins : ${bb.wins ?? 0}<br>
+  return `Game played : ${bb.games_played ?? 0} | Score : ${bb.score ?? 0} | Wins : ${bb.wins ?? 0}<br>
   Solo-Normal wins : ${(bb.wins_solo_normal ?? 0) + (bb.wins_solo_normal_latest ?? 0)} | Team-Normal wins : ${bb.wins_teams_normal ?? 0}<br>
   Solo-Pro wins : ${bb.wins_solo_pro ?? 0} | Guess the build wins : ${bb.wins_guess_the_build ?? 0}<br>`
 }
@@ -200,9 +200,9 @@ const loadBuildBattle = () => {
 const expReqPhased = [15, 30, 50, 75, 125, 300, 600, 800, 900, 1000, 1200, 1500];
 // 在精通 k 时, 升一级所需经验需要乘以的倍数
 const presMultipl = [1, 1.1, 1.2, 1.3, 1.4, 1.5, 1.75, 2, 2.5, 3, 4, 5, 6, 7, 8, 9, 10, 12, 14, 16, 18, 20, 24, 28, 32, 36, 40, 45, 50, 75, 100, 101, 101, 101, 101, 101];
-const getThePitLevel = (pit) => {
+const getThePitLevel = (pitProfile) => {
   level = 0;
-  var xp = pit?.profile?.xp ?? 0;
+  var xp = pitProfile.xp ?? 0;
   for (var i = 0; i < presMultipl.length; i++)
     for (var j = 0; j < expReqPhased.length; j++)
       for (var k = 0; k < 10; k++) {
@@ -213,12 +213,13 @@ const getThePitLevel = (pit) => {
 }
 
 const loadThePit = () => {
-  pit = playerDataJson.stats?.Pit ?? {};
-  return `Level : ${getThePitLevel(pit) ?? 0} | Prestiges : ${pit.profile.prestiges ?? ['None']}<br>
-  Kills : ${pit.pit_stats_ptl.kills ?? 0} | Deaths : ${pit.pit_stats_ptl.deaths ?? 0}<br>
-  Assists : ${pit.pit_stats_ptl.assists ?? 0} | Max Kill Streak : ${pit.pit_stats_ptl.max_streak ?? 0}<br>
-  K/D : ${((pit.pit_stats_ptl.kills ?? 0) / (pit.pit_stats_ptl.deaths ?? 0)).toFixed(2)} | 
-  K+A/D : ${(((pit.pit_stats_ptl.kills ?? 0) + (pit.pit_stats_ptl.assists ?? 0)) / (pit.pit_stats_ptl.deaths ?? 0)).toFixed(2)}<br>`
+  profile = playerDataJson.stats?.Pit?.profile ?? {};
+  pit_stats_ptl = playerDataJson.stats?.Pit?.pit_stats_ptl ?? {};
+  return `Level : ${getThePitLevel(profile) ?? 0} | Prestiges : ${profile.prestiges ?? ['None']}<br>
+  Kills : ${pit_stats_ptl.kills ?? 0} | Deaths : ${pit_stats_ptl.deaths ?? 0}<br>
+  Assists : ${pit_stats_ptl.assists ?? 0} | Max Kill Streak : ${pit_stats_ptl.max_streak ?? 0}<br>
+  K/D : ${((pit_stats_ptl.kills ?? 0) / (pit_stats_ptl.deaths ?? 0)).toFixed(2)} | 
+  K+A/D : ${(((pit_stats_ptl.kills ?? 0) + (pit_stats_ptl.assists ?? 0)) / (pit_stats_ptl.deaths ?? 0)).toFixed(2)}<br>`
 }
 
 const loadBlitzSurvivalGames = () => {
