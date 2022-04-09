@@ -2,7 +2,32 @@
 
 You can use the software to search for the score of any player.
 
-Now support : Overview, Status, Guild, Bed War, Sky War, Murder Mystery, Duel, UHC, Mega Wall, Build Battle, The pit, Blitz Survival Games .
+## Now support : 
+  -Overview
+
+  -Status
+
+  -Guild
+
+  -Bed War
+
+  -Sky War
+
+  -Murder Mystery
+
+  -Duel
+
+  -UHC
+
+  -Mega Wall
+
+  -Build Battle
+
+  -The pit
+
+  -Blitz Survival Games
+
+  -Arcade (Part)
 
 ## Usage 
 
