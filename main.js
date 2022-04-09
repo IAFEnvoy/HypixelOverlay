@@ -20,7 +20,7 @@ const windowConfig = {
 const createWindow = () => {
   win = new BrowserWindow(windowConfig);
   win.loadFile('src/index.html');
-  // win.webContents.openDevTools();
+  // win.webContents.openDevTools({mode:"detach",activate:true});
   win.on('close', () => { win = null; });
 }
 

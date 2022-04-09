@@ -17,7 +17,7 @@ const loadPlayer = async (playername, apikey) => {
   const b = await downloadAssets('https://api.hypixel.net/player?key=' + apikey + '&uuid=' + playerUUID);
   if (!b.success)
     return alert(b.cause);
-  playerDataJson = b.player;
+  playerDataJson = b.player ?? { "displayname": a.name };
   return playerDataJson != null;
 }
 
@@ -227,4 +227,22 @@ const loadBlitzSurvivalGames = () => {
   return `Coins : ${bsg.coins ?? 0} | Chests Opened : ${bsg.chests_opened ?? 0}<br>
   Games Played : ${bsg.games_played ?? 0} | Wins : ${bsg.wins ?? 0}<br>
   Kills : ${bsg.kills ?? 0} | Deaths : ${bsg.deaths ?? 0} | K/D : ${((bsg.kills ?? 0) / (bsg.deaths ?? 0)).toFixed(2)}<br>`
+}
+
+const getRoundValue = (arcade, map, difficulty) => {
+  if (arcade['wins_zombies_' + map + '_' + difficulty] ?? 0 > 0) return arcade['wins_zombies_' + map + '_' + difficulty]+' Wins';
+  return (arcade['total_rounds_survived_zombies_' + map + '_' + difficulty] ?? 0)+' Rounds';
+}
+
+const loadArcade = () => {
+  arcade = playerDataJson.stats?.Arcade ?? {};
+  return `Coins : ${arcade.coins ?? 0}<br>
+  Zombie : <br>
+  Total Rounds Survived : ${arcade.total_rounds_survived_zombies ?? 0} | Wins : ${arcade.wins_zombies ?? 0}<br>
+  Hit Rate : ${(100 * (arcade.bullets_hit_zombies ?? 0) / (arcade.bullets_shot_zombies ?? 0)).toFixed(2)}% | 
+  Head Shot Rate : ${(100 * (arcade.headshots_zombies ?? 0) / (arcade.bullets_hit_zombies ?? 0)).toFixed(2)}%<br>
+  Wins or Best Round : (Map : Normal/Hard/RIP)<br>
+  Dead End : ${getRoundValue(arcade, 'deadend', 'normal')} / ${getRoundValue(arcade, 'deadend', 'hard')} / ${getRoundValue(arcade, 'deadend', 'rip')}<br>
+  Bad Blood : ${getRoundValue(arcade, 'badblood', 'normal')} / ${getRoundValue(arcade, 'badblood', 'hard')} / ${getRoundValue(arcade, 'badblood', 'rip')}<br>
+  Alien Arcadium : ${getRoundValue(arcade, 'alienarcadium', 'normal')}<br>`
 }

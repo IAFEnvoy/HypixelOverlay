@@ -9,11 +9,8 @@ window.onload = function () {
   document.getElementById('apiKey').value = config.apikey ?? '';
 }
 
-let uuid = null;
-let playerjson = null;
-
 async function checkValid() {
-  if (apikey == '')
+  if (apikey == '' || apikey == null)
     return 'Please input your API Key in setting!';
   const a = await downloadAssets('https://api.hypixel.net/key?key=' + apikey);
   if (!a.success)
@@ -57,7 +54,7 @@ async function changeDiv() {
       document.getElementById('playerInfo').innerHTML = loadBedWar();
       break;
     case 'sw':
-      document.getElementById('playerInfo').innerHTML = loadSkyWar() + `<br><br>Sky War Ranked <br>`;
+      document.getElementById('playerInfo').innerHTML = loadSkyWar() + `<br><br>Sky War Ranked<br>`;
       document.getElementById('playerInfo').innerHTML += await loadSkyWarRanked();
       break;
     case 'mm':
@@ -80,6 +77,9 @@ async function changeDiv() {
       break;
     case 'bsg':
       document.getElementById('playerInfo').innerHTML = loadBlitzSurvivalGames();
+      break;
+    case 'arcade':
+      document.getElementById('playerInfo').innerHTML = loadArcade();
       break;
     default:
       document.getElementById('playerInfo').innerHTML = '';
