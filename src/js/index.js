@@ -4,9 +4,25 @@ const { shell } = require('electron');
 let config = {};
 
 window.onload = function () {
-  config = loadConfig();
-  apikey = config.apikey;
-  document.getElementById('apiKey').value = config.apikey ?? '';
+  try {
+    config = loadConfig();
+    apikey = config.apikey;
+    document.getElementById('apiKey').value = config.apikey ?? '';
+  } catch { }
+
+  var run = false;
+  for (var arg in remote.process.argv) {
+    if (remote.process.argv[arg].search("playername=") != -1) {
+      document.getElementById('playername').value = remote.process.argv[arg].replace("playername=", "");
+      run = true;
+    }
+    if (remote.process.argv[arg].search("apikey=") != -1) {
+      document.getElementById('apiKey').value = remote.process.argv[arg].replace("apikey=", "");
+      apikey = remote.process.argv[arg].replace("apikey=", "");
+    }
+  }
+  if (run)
+    search();
 }
 
 async function checkValid() {

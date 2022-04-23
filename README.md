@@ -23,7 +23,7 @@ You can use the software to search for the score of any player.
 
   -Build Battle
 
-  -The pit
+  -The Pit
 
   -Blitz Survival Games
 
@@ -31,10 +31,10 @@ You can use the software to search for the score of any player.
 
 ## Usage 
 
-1.Type  /api new  in Hypixel Server to get the API key.
+1.Type "/api new" in Hypixel Server to get the API key.
 
 2.Open the setting page in the top right corner and input the API key.
 
 3.Close the setting page.
 
-Enjoy it ~
+4.Enjoy it ~
