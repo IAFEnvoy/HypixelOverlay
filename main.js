@@ -1,17 +1,18 @@
 const { app, BrowserWindow, globalShortcut } = require('electron');
 let win;
 const windowConfig = {
-  width: 800,
+  width: 1100,
   height: 600,
   frame: false,
   transparent: true,
   useContentSize: true,
   maximizable: false,
   minimizable: true,
+  resizable:false,
   x: 40,
   y: 20,
   minWidth: 400,
-  icon: __dirname + '/assets/logo.ico',
+  icon: __dirname + '/logo.ico',
   // alwaysOnTop: true,
   title: 'Hypixel Overlay',
   webPreferences: { nodeIntegration: true, enableRemoteModule: true, contextIsolation: false }
@@ -20,7 +21,7 @@ const windowConfig = {
 const createWindow = () => {
   win = new BrowserWindow(windowConfig);
   win.loadFile('src/index.html');
-  // win.webContents.openDevTools({mode:"detach",activate:true});
+  win.webContents.openDevTools({ mode: "detach", activate: true });
   win.on('close', () => { win = null; });
 }
 
