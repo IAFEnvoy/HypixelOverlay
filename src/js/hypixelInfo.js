@@ -75,7 +75,7 @@ const getGuildTag = async () => {
     guildJson = b.guild;
     guildUUID = playerUUID;
   }
-  if (guildJson != null)
+  if (guildJson != null && guildJson.tag != null)
     return formatColor(formatColorFromString(guildJson.tagColor) + '[' + guildJson.tag + ']');
   return "";
 }
@@ -89,10 +89,10 @@ const loadGuild = async () => {
     guildUUID = playerUUID;
   }
   if (guildJson == null)
-    return 'No Guild';
-  var data = `Name : ${guildJson.name}<br>
+    return 'Guild : No Guild';
+  var data = `Guild : ${guildJson.name}<br>
   Level : ${getGuildLevel(guildJson.exp).toFixed(2)}<br>
-  Members : ${guildJson.members.length}<br><br>`
+  Members : ${guildJson.members.length}<br>`
   let playerGuildJson = null;
   for (var i = 0; i < guildJson.members.length; i++)
     if (guildJson.members[i].uuid == guildUUID) {
@@ -107,8 +107,7 @@ const loadGuild = async () => {
     }
   if (playerGuildJson == null || rankJson == null) return data;
   return data + `Join Time : ${formatDateTime(playerGuildJson.joined)}<br>
-  Rank : ${playerGuildJson.rank} (${formatColor(formatColorFromString(guildJson.tagColor) + '[' + rankJson.tag + ']')})<br>
-  Priority : ${rankJson.priority}`;
+  Rank : ${playerGuildJson.rank} (${formatColor(formatColorFromString(guildJson.tagColor) + '[' + rankJson.tag + ']')})`;
 }
 
 const loadStatus = async () => {
@@ -150,10 +149,8 @@ const getData = {
     return `Level : ${(api.networkExp ?? 0) < 0 ? 1 : (1 - 3.5 + Math.sqrt(12.25 + 0.0008 * (api.networkExp ?? 0))).toFixed(2)}<br>
     Karma : ${api.karma ?? 0}<br>
     Achievement Point :  ${api.achievementPoints ?? 0}<br>
-    General Wins : ${achievements.general_wins ?? 0}<br>
     Complete Quest : ${achievements.general_quest_master ?? 0}<br>
     Complete Challenge : ${achievements.general_challenger ?? 0}<br>
-    General Coins : ${achievements.general_coins ?? 0}<br>
     Language : ${formatNameString(api.userLanguage ?? 'ENGLISH')}<br>
     First Login : ${formatDateTime(api.firstLogin)}<br>
     Last Login : ${formatDateTime(api.lastLogin)}<br>

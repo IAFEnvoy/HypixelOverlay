@@ -1,7 +1,7 @@
 const { app, BrowserWindow, globalShortcut } = require('electron');
 let win;
 const windowConfig = {
-  width: 1100,
+  width: 1150,
   height: 600,
   frame: false,
   transparent: true,

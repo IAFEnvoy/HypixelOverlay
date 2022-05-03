@@ -8,6 +8,7 @@
   <script src="js/config.js"></script>
   <script src="js/hypixelInfo.js"></script>
   <script src="js/index.js"></script>
+  <link rel="styleSheet" href="scrollbar.css" />
   <link rel="styleSheet" href="style.css" />
   <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />
 </head>
@@ -30,7 +31,7 @@
     </div>
     <div id="setapikey">
       <div class="infoFont" style="top:50px">Hypixel API Key :</div>
-      <input id="apikey" type="text" style="position: absolute;top:90px;left:300px;width: 450px;">
+      <input id="apikey" type="text" style="position: absolute;top:90px;left:300px;width: 700px;">
     </div>
   </div>
   <div id="result" hidden>
@@ -41,7 +42,7 @@
       <div id="status" class="dataStyle"></div>
       <div></div>
     </div>
-    <div id="details" style="position: absolute;top:85px;left:470px;width:600px;height: auto;">
+    <div id="details" style="position: absolute;top:85px;left:470px;width:500px;height: auto;">
       <div id="bw" class="dataStyle" onclick="showDetail('bw')">
         <div style="font-size:20px;">Bed Wars</div>
         <div id="bwdetail"></div>
@@ -83,5 +84,6 @@
         <div id="arcadedetail"></div>
       </div>
     </div>
+    <img id="skin" style="position: absolute;top:85px;left: 990px;width: 120px;height: 270px;">
   </div>
 </body>

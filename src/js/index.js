@@ -1,11 +1,19 @@
 const remote = require('electron').remote;
 const { shell } = require('electron');
 
-function closeWindow() {
+let config = null;
+
+window.onload = () => {
+  config = loadConfig();
+  if (config != null)
+    document.getElementById('apikey').value = config.apikey;
+}
+
+const closeWindow = () => {
   remote.getCurrentWindow().close();
 }
 
-function minimize() {
+const minimize = () => {
   remote.getCurrentWindow().minimize();
 }
 
@@ -21,20 +29,23 @@ async function checkValid() {
 }
 
 async function search() {
-  // document.getElementById('skin').hidden = true;
-  document.getElementById('playerName').innerHTML = 'Loading...';
-  apikey = document.getElementById('apikey').value;
+  if (!document.getElementById('setapikey').hidden) {
+    document.getElementById('playerName').innerHTML = 'Loading...';
+    apikey = document.getElementById('apikey').value;
 
-  let valid = await checkValid();
-  if (valid != 'ok')
-    return alert(valid);
+    let valid = await checkValid();
+    if (valid != 'ok')
+      return alert(valid);
 
-  document.getElementById('setapikey').hidden = true;
-  document.getElementById('result').hidden = false;
+    saveConfig({ apikey: apikey });
+    document.getElementById('setapikey').hidden = true;
+    document.getElementById('result').hidden = false;
+  }
 
   if (!await loadPlayer(document.getElementById('playername').value, apikey))
     return;
   document.getElementById('playerName').innerHTML = getName() + await getGuildTag();
+  document.getElementById('skin').src = 'https://crafatar.com/renders/body/' + getUUID() + '?overlay';
   document.getElementById('networkinfo').innerHTML = getData['ov']();
   document.getElementById('guild').innerHTML = await loadGuild();
   document.getElementById('status').innerHTML = await loadStatus();
@@ -52,4 +63,5 @@ const showDetail = (mode) => {
     document.getElementById(mode + 'detail').innerHTML = getData[mode]();
     latestmode = mode;
   }
+  document.getElementById("background").style.backgroundImage = "url('img/" + (latestmode == "" ? "default" : latestmode) + ".png')";
 }
