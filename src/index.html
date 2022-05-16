@@ -3,11 +3,11 @@
 <head>
   <meta charset="utf-8">
   <title>Hypixel Overlay</title>
-  <script src="js/base64.js"></script>
   <script src="js/util.js"></script>
   <script src="js/config.js"></script>
   <script src="js/hypixelInfo.js"></script>
   <script src="js/index.js"></script>
+  <script src="js/control.js"></script>
   <link rel="styleSheet" href="scrollbar.css" />
   <link rel="styleSheet" href="style.css" />
   <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />
@@ -33,6 +33,22 @@
       <div class="infoFont" style="top:50px">Hypixel API Key :</div>
       <input id="apikey" type="text" style="position: absolute;top:90px;left:300px;width: 700px;">
     </div>
+    <div id="author" style="position:absolute;top:80px;left:10px;width:90%;text-align: left;">
+      <button class="titleitems" style="position:absolute;top:70px;left:10px;height: 45px;width: 270px;"
+        onclick="openGithub()">View Code on Github</button>
+      <div class="infoFont" style="position:absolute;left:10px;top:120px;width:100%;height:50px;">Author : IAFEnvoy</div>
+      <button style="position:absolute;top:160px;left:10px;height:45px;width:100px;"
+        onclick="openGithubHome()">Github</button>
+      <button style="position:absolute;top:160px;left:130px;height:45px;width:100px;"
+        onclick="openYoutube()">Youtube</button>
+      <button style="position:absolute;top:160px;left:250px;height:45px;width:100px;"
+        onclick="openTwitter()">Twitter</button>
+      <button style="position:absolute;top:160px;left:370px;height:45px;width:100px;"
+        onclick="openBilibili()">Bilibili</button>
+      <div class="infoFont" style="position:absolute;left:10px;top:215px;width:100%;height:50px;">Acknowledge:</div>
+      <div class="infoFont" style="position:absolute;left:30px;top:250px;width:100%;height:50px;">Thank you to <a
+          href="https://crafatar.com">Crafatar</a> for providing avatars.</div>
+    </div>
   </div>
   <div id="result" hidden>
     <div id="baseinfo" style="position: absolute;top:85px;left:10px;width:450px;height: auto;">
@@ -40,50 +56,8 @@
       <div id="networkinfo" class="dataStyle"></div>
       <div id="guild" class="dataStyle"></div>
       <div id="status" class="dataStyle"></div>
-      <div></div>
     </div>
-    <div id="details" style="position: absolute;top:85px;left:470px;width:500px;height: auto;">
-      <div id="bw" class="dataStyle" onclick="showDetail('bw')">
-        <div style="font-size:20px;">Bed Wars</div>
-        <div id="bwdetail"></div>
-      </div>
-      <div id="sw" class="dataStyle" onclick="showDetail('sw')">
-        <div style="font-size:20px;">SkyWars</div>
-        <div id="swdetail"></div>
-      </div>
-      <div id="mm" class="dataStyle" onclick="showDetail('mm')">
-        <div style="font-size:20px;">Murder Mystery</div>
-        <div id="mmdetail"></div>
-      </div>
-      <div id="duel" class="dataStyle" onclick="showDetail('duel')">
-        <div style="font-size:20px;">Duel</div>
-        <div id="dueldetail"></div>
-      </div>
-      <div id="uhc" class="dataStyle" onclick="showDetail('uhc')">
-        <div style="font-size:20px;">UHC</div>
-        <div id="uhcdetail"></div>
-      </div>
-      <div id="mw" class="dataStyle" onclick="showDetail('mw')">
-        <div style="font-size:20px;">Mega Wall</div>
-        <div id="mwdetail"></div>
-      </div>
-      <div id="bb" class="dataStyle" onclick="showDetail('bb')">
-        <div style="font-size:20px;">Build Battle</div>
-        <div id="bbdetail"></div>
-      </div>
-      <div id="pit" class="dataStyle" onclick="showDetail('pit')">
-        <div style="font-size:20px;">The Pit</div>
-        <div id="pitdetail"></div>
-      </div>
-      <div id="bsg" class="dataStyle" onclick="showDetail('bsg')">
-        <div style="font-size:20px;">Blitz Survival Games</div>
-        <div id="bsgdetail"></div>
-      </div>
-      <div id="arcade" class="dataStyle" onclick="showDetail('arcade')">
-        <div style="font-size:20px;">Arcade</div>
-        <div id="arcadedetail"></div>
-      </div>
-    </div>
+    <div id="details" style="position: absolute;top:85px;left:470px;width:500px;height: auto;"> </div>
     <img id="skin" style="position: absolute;top:85px;left: 990px;width: 120px;height: 270px;">
   </div>
 </body>

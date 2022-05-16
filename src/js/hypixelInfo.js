@@ -17,7 +17,7 @@ const loadPlayer = async (playername, apikey) => {
   const b = await downloadAssets('https://api.hypixel.net/player?key=' + apikey + '&uuid=' + playerUUID);
   if (!b.success)
     return alert(b.cause);
-  playerDataJson = b.player ?? { "displayname": a.name };
+  playerDataJson = b.player ?? { 'displayname': a.name };
   return playerDataJson != null;
 }
 
@@ -59,7 +59,7 @@ const loadSkyWarRanked = async () => {
 const getGuildLevel = (exp) => {
   let guildLevelTables = [100000, 150000, 250000, 500000, 750000, 1000000, 1250000, 1500000, 2000000, 2500000, 2500000, 2500000, 2500000, 2500000, 3000000];
   let level = 0;
-  for (var i = 0; ; i++) {
+  for (let i = 0; ; i++) {
     need = i >= guildLevelTables.length ? guildLevelTables[guildLevelTables.length - 1] : guildLevelTables[i];
     exp -= need;
     if (exp < 0) return level + 1 + exp / need;
@@ -67,44 +67,32 @@ const getGuildLevel = (exp) => {
   }
 }
 
+const downloadGuildJson = async () => {
+  const b = await downloadAssets('https://api.hypixel.net/guild?key=' + apikey + '&player=' + playerUUID);
+  if (!b.success)
+    return b.cause;
+  guildJson = b.guild;
+  guildUUID = playerUUID;
+}
+
 const getGuildTag = async () => {
-  if (guildUUID != playerUUID) {
-    const b = await downloadAssets('https://api.hypixel.net/guild?key=' + apikey + '&player=' + playerUUID);
-    if (!b.success)
-      return b.cause;
-    guildJson = b.guild;
-    guildUUID = playerUUID;
-  }
-  if (guildJson != null && guildJson.tag != null)
+  if (guildUUID != playerUUID)
+    await downloadGuildJson();
+  if (guildJson != null && guildJson.tag != null && guildJson.tagColor != null)
     return formatColor(formatColorFromString(guildJson.tagColor) + '[' + guildJson.tag + ']');
   return "";
 }
 
 const loadGuild = async () => {
-  if (guildUUID != playerUUID) {
-    const b = await downloadAssets('https://api.hypixel.net/guild?key=' + apikey + '&player=' + playerUUID);
-    if (!b.success)
-      return b.cause;
-    guildJson = b.guild;
-    guildUUID = playerUUID;
-  }
+  if (guildUUID != playerUUID)
+    await downloadGuildJson();
   if (guildJson == null)
     return 'Guild : No Guild';
-  var data = `Guild : ${guildJson.name}<br>
+  let data = `Guild : ${guildJson.name}<br>
   Level : ${getGuildLevel(guildJson.exp).toFixed(2)}<br>
   Members : ${guildJson.members.length}<br>`
-  let playerGuildJson = null;
-  for (var i = 0; i < guildJson.members.length; i++)
-    if (guildJson.members[i].uuid == guildUUID) {
-      playerGuildJson = guildJson.members[i];
-      break;
-    }
-  let rankJson = null;
-  for (var i = 0; i < guildJson.ranks.length; i++)
-    if (guildJson.ranks[i].name == playerGuildJson.rank) {
-      rankJson = guildJson.ranks[i];
-      break;
-    }
+  let playerGuildJson = guildJson.members.find(member => member.uuid == guildUUID);
+  let rankJson = guildJson.ranks.find(rank => rank.name == playerGuildJson.rank);
   if (playerGuildJson == null || rankJson == null) return data;
   return data + `Join Time : ${formatDateTime(playerGuildJson.joined)}<br>
   Rank : ${playerGuildJson.rank} (${formatColor(formatColorFromString(guildJson.tagColor) + '[' + rankJson.tag + ']')})`;
@@ -130,10 +118,10 @@ const expReqPhased = [15, 30, 50, 75, 125, 300, 600, 800, 900, 1000, 1200, 1500]
 const presMultipl = [1, 1.1, 1.2, 1.3, 1.4, 1.5, 1.75, 2, 2.5, 3, 4, 5, 6, 7, 8, 9, 10, 12, 14, 16, 18, 20, 24, 28, 32, 36, 40, 45, 50, 75, 100, 101, 101, 101, 101, 101];
 const getThePitLevel = (pitProfile) => {
   level = 0;
-  var xp = pitProfile.xp ?? 0;
-  for (var i = 0; i < presMultipl.length; i++)
-    for (var j = 0; j < expReqPhased.length; j++)
-      for (var k = 0; k < 10; k++) {
+  let xp = pitProfile.xp ?? 0;
+  for (let i = 0; i < presMultipl.length; i++)
+    for (let j = 0; j < expReqPhased.length; j++)
+      for (let k = 0; k < 10; k++) {
         if (xp < expReqPhased[j] * presMultipl[i]) return level % 120;
         xp -= expReqPhased[j] * presMultipl[i];
         level++;
@@ -184,7 +172,8 @@ const getData = {
     Knife Kills : ${mm.knife_kills ?? 0} | Bow Kills : ${mm.bow_kills ?? 0}<br>
     Kills As Murderer : ${mm.kills_as_murderer ?? 0} | Heroes : ${mm.was_hero ?? 0}<br>
     Kills As Infected : ${mm.kills_as_infected ?? 0} | Kills As Survivor : ${mm.kills_as_survivor ?? 0}<br>
-    Longest Time Survive : ${mm.longest_time_as_survivor_seconds ?? 0}s | Alpha Chance : ${mm.alpha_chance ?? 0}%`
+    Longest Time Survive : ${mm.longest_time_as_survivor_seconds ?? 0}s<br>
+    Alpha Chance : ${mm.alpha_chance ?? 0}%`
   },
   "duel": () => {
     duel = playerDataJson.stats?.Duels ?? {};
