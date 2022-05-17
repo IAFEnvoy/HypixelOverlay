@@ -71,3 +71,10 @@ const showDetail = (mode) => {
   }
   document.getElementById("background").style.backgroundImage = "url('img/" + (latestmode == "" ? "default" : latestmode) + ".png')";
 }
+
+const downloadSkin = async () => {
+  let a = document.createElement('a');
+  a.href = 'https://crafatar.com/skins/' + getUUID();
+  a.download = getUUID() + '.png';
+  a.click();
+}
