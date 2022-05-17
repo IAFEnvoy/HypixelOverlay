@@ -55,6 +55,18 @@ const search = async () => {
   document.getElementById('networkinfo').innerHTML = getData['ov']();
   document.getElementById('guild').innerHTML = await loadGuild();
   document.getElementById('status').innerHTML = await loadStatus();
+  document.getElementById('socialMedia').innerHTML = '';
+  socialMediaList.reduce((prev, cur) => {
+    let link = getSocialMedia(cur);
+    if (link != null) {
+      let icon = document.createElement('img');
+      icon.src = 'img/icons/' + cur.toLowerCase() + '.png';
+      icon.style = 'width:70px;height:70px;';
+      icon.addEventListener('click', (e) => openUrl(link));
+      prev.appendChild(icon);
+    }
+    return prev;
+  }, document.getElementById('socialMedia'));
 }
 
 let latestmode = "";

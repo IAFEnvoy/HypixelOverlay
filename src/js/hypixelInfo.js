@@ -233,8 +233,10 @@ const getData = {
 };
 
 const getRoundValue = (arcade, map, difficulty) => {
-  if (arcade['wins_zombies_' + map + '_' + difficulty] ?? 0 > 0) return arcade['wins_zombies_' + map + '_' + difficulty] + ' Wins';
-  return (arcade['total_rounds_survived_zombies_' + map + '_' + difficulty] ?? 0) + ' Rounds';
+  if (arcade[`wins_zombies_${map}_${difficulty}`] ?? 0 > 0) return arcade[`wins_zombies_${map}_${difficulty}`] + ' Wins';
+  return (arcade[`total_rounds_survived_zombies_${map}_${difficulty}`] ?? 0) + ' Rounds';
 }
+
+const socialMediaList=['DISCORD','HYPIXEL','TWITCH','TWITTER','YOUTUBE'];
 
 const getSocialMedia = (platform) => playerDataJson?.socialMedia?.links[platform] ?? null;
