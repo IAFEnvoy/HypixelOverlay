@@ -2,6 +2,8 @@
 
 You can use the software to search for the score of any player.
 
+### **This software's utility has been merged into the [Starburst Overlay](https://github.com/IAFEnvoy/StarburstOverlay). This repository will no longer update.**
+
 ## Now support : 
   -Overview
 
